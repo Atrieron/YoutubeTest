@@ -38,7 +38,7 @@
 
     <bean id="dataSource"
               class="org.apache.tomcat.jdbc.pool.DataSource"
-              p:driverClassName="com.mysql.jdbc.Driver"
+              p:driverClassName="com.mysql.cj.jdbc.Driver"
               p:url="${database.url}"
               p:username="${database.username}"
               p:password="${database.password}"/>

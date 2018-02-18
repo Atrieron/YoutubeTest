@@ -16,11 +16,11 @@ public class Game {
     @Column(name = "name", nullable = false)
     protected String name;
 
-    @Column(name = "image")
-    @Fetch(FetchMode.JOIN)
-    @Lob
-    //@Type(type = "org.springframework.orm.hibernate3.support.BlobByteArrayType")
-    private byte[] image;
+    @Column(name = "steam_id")
+    private String steamId;
+
+    @Column(name = "description")
+    private String description;
 
     public Integer getId() {
         return id;
@@ -38,18 +38,29 @@ public class Game {
         this.name = name;
     }
 
-    public byte[] getImage() {
-        return image;
+    public String getSteamId() {
+        return steamId;
     }
 
-    public void setImage(byte[] image) {
-        this.image = image;
+    public void setSteamId(String steamId) {
+        this.steamId = steamId;
     }
 
-    public void assignImage(byte[] image){
-        this.image = image;
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Game() {
+    }
+
+    @Override
+    public String toString() {
+        return "Game{" +
+                "name='" + name + '\'' +
+                '}';
     }
 }

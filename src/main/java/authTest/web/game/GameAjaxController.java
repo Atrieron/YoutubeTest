@@ -1,0 +1,16 @@
+package authTest.web.game;
+
+import authTest.to.GameSearchTo;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping(value = "/ajax/game")
+public class GameAjaxController extends AbstractGameController {
+    @PostMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<GameSearchTo> getAll(@RequestParam("searchString") String searchString) {
+        return super.getAll(searchString);
+    }
+}

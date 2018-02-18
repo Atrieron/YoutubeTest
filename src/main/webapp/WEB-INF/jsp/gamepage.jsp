@@ -47,7 +47,8 @@
             <img style="display: inline-block; width: 90%; height: 130px" src="${pageContext.request.contextPath}/imageController/${game.id}"/>
         </div>
         <div id ="columnRight">
-            ${game.name}
+            <h1>${game.name}</h1>
+            ${game.description}
         </div>
     </div>
     <div id="footer">
@@ -59,13 +60,16 @@
                 <p>${video.name}</p>
             </div>
         </c:forEach>
+        <a class="btn btn-primary" onclick="add()">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            Add video
+        </a>
     </div>
     <div id="playerPic" class="modal fade" style="width: 60%; height: 60%">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h2 class="modal-title" id="modalTitle"></h2>
                 </div>
                 <div class="modal-body" id="playerdiv">
 
@@ -73,8 +77,46 @@
             </div>
         </div>
     </div>
+    <div id="videoAddition" class="modal fade" style="width: 60%; height: 60%">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" id="detailsForm">
+                        <input type="hidden" id="gameId" name="gameId" value="${game.id}">
+
+                        <div class="form-group">
+                            <label for="description" class="control-label col-xs-3">Description</label>
+
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" id="description" name="description">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="link" class="control-label col-xs-3">Link</label>
+
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" id="link" name="link" placeholder="Link to video">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-offset-3 col-xs-9">
+                                <button class="btn btn-primary" type="button" onclick="save()">
+                                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 <script type="text/javascript">
+    var ajaxUrl = "ajax/video/";
+
     function play(id, time) {
         var html = '';
 
@@ -99,6 +141,23 @@
         $("#playerdiv").html(play(ytid, time));
         $("#playerPic").modal('show');
         //$("#ytplayer").stopVideo()
+    }
+
+    function add() {
+        description
+        $("#description").val("");
+        $("#link").val("");
+        $("#videoAddition").modal();
+    }
+
+    function save() {
+        $.ajax({
+            type: "POST",
+            url: ajaxUrl,
+            data: $("#detailsForm").serialize()
+        }).done(function () {
+            $("#videoAddition").modal("hide");
+        });
     }
 </script>
 </html>

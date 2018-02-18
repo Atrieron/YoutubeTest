@@ -1,6 +1,7 @@
 package authTest.repository.datajpa;
 
 import authTest.model.Game;
+import authTest.model.Image;
 import authTest.repository.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -12,6 +13,9 @@ import java.util.List;
 public class DataJpaGameRepository implements GameRepository {
     @Autowired
     CrudGameRepository repository;
+
+    @Autowired
+    CrudImageRepository imageRepository;
 
     @Override
     public List<Game> getAll() {
@@ -31,7 +35,21 @@ public class DataJpaGameRepository implements GameRepository {
         Game cloneGame = new Game();
         cloneGame.setId(game.getId());
         cloneGame.setName(game.getName());
-        cloneGame.setImage(game.getImage());
         return cloneGame;
+    }
+
+    @Override
+    public Game getBySteamId(String idString) {
+        return repository.findBySteamId(idString);
+    }
+
+    @Override
+    public Image saveImage(Image image) {
+        return imageRepository.save(image);
+    }
+
+    @Override
+    public Image getImageByGameId(int imageId) {
+        return imageRepository.findByGameId(imageId);
     }
 }

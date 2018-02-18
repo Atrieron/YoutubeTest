@@ -25,7 +25,12 @@ public class DataJpaYoutubeVideoRepository implements YoutubeVideoRepository {
 
     @Override
     @Transactional
-    public YoutubeVideo save(YoutubeVideo user) {
-        return crudYoutubeVideoRepository.save(user);
+    public YoutubeVideo save(YoutubeVideo youtubeVideo) {
+        return crudYoutubeVideoRepository.save(youtubeVideo);
+    }
+
+    @Override
+    public YoutubeVideo create(YoutubeVideo youtubeVideo) {
+        return crudYoutubeVideoRepository.save(youtubeVideo);
     }
 }
