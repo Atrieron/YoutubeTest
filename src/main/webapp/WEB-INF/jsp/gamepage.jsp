@@ -68,7 +68,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body" id="playerdiv">
-
+                    <div id="playerholder"/>
                 </div>
             </div>
         </div>
@@ -113,6 +113,7 @@
 <script type="text/javascript">
     var ajaxUrl = "ajax/video/";
     var gameId;
+    var player;
 
     function play(id, time) {
         var html = '';
@@ -127,19 +128,33 @@
     };
 
     $(function()
-        {$('#playerPic').on('hidden.bs.modal', function ()
+        {
+            var tag = document.createElement('script');
+            tag.src = "//www.youtube.com/player_api";
+            var firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+            $('#playerPic').on('hidden.bs.modal', function ()
             {
-                $("#ytplayer").stopVideo();
+                player.stopVideo();
             });
-        gameId = document.getElementById('gameId').value;
-        updateVideo();
+            gameId = document.getElementById('gameId').value;
+            updateVideo();
         }
     );
 
     function setId(ytid, time) {
-        $("#playerdiv").html(play(ytid, time));
+        $("#playerdiv").html("<div id=\"playerholder\"/>");
+
+        player = new YT.Player('playerholder', {
+            height: '70%',
+            width: '100%',
+            videoId: ytid,
+            playerVars: {'autoplay': 1, 'start':time}
+        });
+
+        //$("#playerdiv").html(play(ytid, time));
         $("#playerPic").modal('show');
-        //$("#ytplayer").stopVideo()
     }
 
     function add() {

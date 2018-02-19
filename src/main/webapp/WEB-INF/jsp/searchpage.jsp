@@ -45,7 +45,17 @@
     function updateTableByData(data) {
         text = "";
         for (var i = 0; i < data.length; i++) {
-            text = text + "<div><div class='columnLeft'><img style=\"display: inline-block; width: 90%; height: 50px\" src=\"" + data[i].img_path + "\"></div><div class='columnRight'><p>"+data[i].name+"</p><input type='button' onclick='voteSteam("+data[i].steamId+")'>Vote</input></div></div>"
+            if(data[i].id==0) {
+                text = text + "<div><div class='columnLeft'>" +
+                    "<img style=\"display: inline-block; width: 90%; height: 50px\" src=\"" + data[i].img_path + "\"></div>" +
+                    "<div class='columnRight'><p>" + data[i].name + "</p><input type='button' onclick='voteSteam(" + data[i].steamId + ")'>Vote</input>" +
+                    "</div></div>"
+            } else {
+                text = text + "<div><div class='columnLeft'>" +
+                    "<a href=\"game/"+data[i].id+"\"><img style=\"display: inline-block; width: 90%; height: 50px\" src=\"" + data[i].img_path + "\"></a></div>" +
+                    "<div class='columnRight'><a href=\"game/"+data[i].id+"\">" + data[i].name + "</a><input type='button' onclick='voteSteam(" + data[i].steamId + ")'>Vote</input>" +
+                    "</div></div>"
+            }
         }
         $("#searchResult").html(text);
     }

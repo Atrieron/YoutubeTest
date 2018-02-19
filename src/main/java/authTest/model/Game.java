@@ -12,15 +12,15 @@ import java.io.Serializable;
 public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Integer id;
+    private Integer id;
 
     @Column(name = "name", nullable = false)
-    protected String name;
+    private String name;
 
-    @Column(name = "steam_id")
+    @Column(name = "steam_id", nullable = false)
     private String steamId;
 
-    @Column(name = "description")
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
     public Integer getId() {

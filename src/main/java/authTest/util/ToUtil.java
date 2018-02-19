@@ -10,7 +10,7 @@ import authTest.to.YoutubeVideoTo;
  */
 public class ToUtil {
     public static GameSearchTo toGameSearchTo(Game game){
-        return new GameSearchTo(game.getId(), game.getName(), game.getSteamId(), "/imageController/"+game.getId());
+        return new GameSearchTo(game.getId(), game.getName(), game.getSteamId(), null);
     }
 
     public static YoutubeVideoTo toYoutubeVideoTo(YoutubeVideo youtubeVideo){

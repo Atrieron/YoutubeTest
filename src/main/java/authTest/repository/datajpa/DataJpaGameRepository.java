@@ -35,6 +35,8 @@ public class DataJpaGameRepository implements GameRepository {
         Game cloneGame = new Game();
         cloneGame.setId(game.getId());
         cloneGame.setName(game.getName());
+        cloneGame.setSteamId(game.getSteamId());
+        cloneGame.setDescription(game.getDescription());
         return cloneGame;
     }
 
