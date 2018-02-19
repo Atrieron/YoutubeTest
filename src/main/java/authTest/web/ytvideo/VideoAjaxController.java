@@ -2,6 +2,7 @@ package authTest.web.ytvideo;
 
 import authTest.model.YoutubeVideo;
 import authTest.service.GameService;
+import authTest.to.YoutubeVideoTo;
 import authTest.util.YoutubeLinkHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/ajax/video")
@@ -25,5 +28,10 @@ public class VideoAjaxController extends AbstractYoutubeVideoController {
         newVideo.setGame(gameService.getById(gameId));
         super.create(newVideo);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/byGame")
+    public List<YoutubeVideoTo> getVideoByGame(@RequestParam("gameId") Integer gameId) {
+        return super.getVideoByGame(gameId);
     }
 }

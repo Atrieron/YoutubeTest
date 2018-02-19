@@ -5,10 +5,22 @@
     <link rel="stylesheet" href="webjars/bootstrap/3.3.7-1/css/bootstrap.min.css">
     <script type="text/javascript"	src="webjars/jquery/3.2.1/dist/jquery.min.js"></script>
     <script type="text/javascript" src="webjars/bootstrap/3.3.7-1/js/bootstrap.min.js" defer></script>
+    <style type="text/css">
+        .columnLeft {
+            float: left;
+            width: 160px;
+            margin-left: 10px;
+            padding-top: 1em;
+        }
+        .columnRight {
+            padding-top: 1em;
+            margin: 0 2em 0 200px;
+        }
+    </style>
 </head>
 <body>
     <form id="searchForm">
-        <input id="searchString" name="searchString" placeholder="Steam shop address" oninput="inputchange()"/>
+        <input style="margin-left: 10px; margin-top: 10px; width: 80%" id="searchString" name="searchString" placeholder="Steam shop address" oninput="inputchange()"/>
     </form>
     <div id="searchResult">
 
@@ -31,12 +43,19 @@
     }
 
     function updateTableByData(data) {
-        alert("search end");
         text = "";
         for (var i = 0; i < data.length; i++) {
-            text = text + "<div><img src=\"" + data[i].img_path + "\"></div>"
+            text = text + "<div><div class='columnLeft'><img style=\"display: inline-block; width: 90%; height: 50px\" src=\"" + data[i].img_path + "\"></div><div class='columnRight'><p>"+data[i].name+"</p><input type='button' onclick='voteSteam("+data[i].steamId+")'>Vote</input></div></div>"
         }
         $("#searchResult").html(text);
+    }
+
+    function voteSteam(steamId) {
+        $.ajax({
+            type: "POST",
+            url: ajaxUrl + "vote",
+            data: {id:steamId, type:"steamId"}
+        });
     }
 </script>
 </html>

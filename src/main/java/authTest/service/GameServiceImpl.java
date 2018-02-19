@@ -3,6 +3,7 @@ package authTest.service;
 import authTest.model.Game;
 import authTest.model.Image;
 import authTest.repository.GameRepository;
+import authTest.to.GameSearchTo;
 import authTest.util.NetHelper;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;

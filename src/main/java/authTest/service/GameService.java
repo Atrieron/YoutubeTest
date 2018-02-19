@@ -2,6 +2,7 @@ package authTest.service;
 
 import authTest.model.Game;
 import authTest.model.Image;
+import authTest.to.GameSearchTo;
 
 import java.util.List;
 

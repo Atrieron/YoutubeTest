@@ -1,10 +1,21 @@
 package authTest.to;
 
-public class GameSearchTo {
+import java.io.Serializable;
+
+public class GameSearchTo implements Serializable {
     private Integer id;
     private String name;
     private String steamId;
     private String img_path;
+    private String descriprion;
+
+    public String getDescriprion() {
+        return descriprion;
+    }
+
+    public void setDescriprion(String descriprion) {
+        this.descriprion = descriprion;
+    }
 
     public Integer getId() {
         return id;

@@ -1,25 +1,14 @@
 package authTest.web;
 
 import authTest.model.Game;
-import authTest.repository.GameRepository;
-import authTest.repository.YoutubeVideoRepository;
 import authTest.service.GameService;
-import authTest.to.GameSearchTo;
-import authTest.util.ToUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Controller
 public class RootController {
-	@Autowired
-	private YoutubeVideoRepository videoRepository;
-
 	@Autowired
 	private GameService gameService;
 	
@@ -41,13 +30,12 @@ public class RootController {
             return "/";
         }
         model.addAttribute("game",game);
-        model.addAttribute("videos", videoRepository.getByGameId(id));
         return "gamepage";
     }
 
     @GetMapping(value = "/imageController/{imageId}")
     @ResponseBody
-    public byte[] helloWorld(@PathVariable int imageId)  {
+    public byte[] getImageById(@PathVariable int imageId)  {
         return gameService.getImageByGameId(imageId).getData();
     }
 }

@@ -1,5 +1,10 @@
 package authTest.util;
 
+import authTest.model.Game;
+import authTest.model.Image;
+import authTest.to.GameSearchTo;
+import org.json.JSONObject;
+
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -38,5 +43,32 @@ public class NetHelper {
             if (stream != null)
                 stream.close();
         }
+    }
+
+    public static GameSearchTo getBySteamId(String steamId) throws Exception {
+        String st = NetHelper.readUrl("http://store.steampowered.com/api/appdetails?appids="+steamId);
+        String substr = "{\"" + steamId + "\":";
+        if(st.startsWith(substr)) {
+            st = st.substring(substr.length());
+            st = st.substring(0, st.length()-1);
+            if(st.startsWith("{\"success\":true,\"data\":")) {
+                st = st.substring("{\"success\":true,\"data\":".length());
+                st = st.substring(0, st.length()-1);
+                JSONObject jo = new JSONObject(st);
+                GameSearchTo game = new GameSearchTo();
+                game.setSteamId(steamId);
+                if(jo.has("name")){
+                    game.setName(jo.get("name").toString());
+                }
+                if(jo.has("short_description")){
+                    game.setDescriprion(jo.get("short_description").toString());
+                }
+                if (jo.has("header_image")) {
+                    game.setImg_path(jo.get("header_image").toString());
+                }
+                return game;
+            }
+        }
+        return null;
     }
 }

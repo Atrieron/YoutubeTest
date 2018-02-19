@@ -3,7 +3,9 @@ package authTest.web.game;
 import authTest.model.Game;
 import authTest.service.GameService;
 import authTest.to.GameSearchTo;
+import authTest.util.NetHelper;
 import authTest.util.ToUtil;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -23,9 +25,31 @@ public class AbstractGameController {
                 idString = idString.substring(0, idString.indexOf("/"));
             }
             Game game = gameService.getBySteamId(idString);
-            if(game!=null)
+            if(game==null){
+                try {
+                    GameSearchTo newGame = NetHelper.getBySteamId(idString);
+                    if(newGame!=null){
+                        newGame.setDescriprion(null);
+                        res.add(newGame);
+                    }
+                } catch (Exception e) {
+                }
+            } else {
                 res.add(ToUtil.toGameSearchTo(game));
+            }
         }
         return res;
+    }
+
+    public Game registerSteamGame(String steamId) {
+        Game game = gameService.getBySteamId(steamId);
+        if(game==null){
+            try {
+                game = gameService.saveBySteamId(steamId);
+            } catch (Exception e) {
+                return null;
+            }
+        }
+        return game;
     }
 }

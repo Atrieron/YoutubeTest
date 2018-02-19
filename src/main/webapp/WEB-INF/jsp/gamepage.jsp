@@ -16,6 +16,13 @@
             width:150px;
             display: inline-block;
         }
+        .sectionbutton{
+            float:left;
+            margin-left:10px;
+            display: inline-block;
+            top: 50%;
+            left: 50%;
+        }
         .sectionimange{
             height:70%;
             width:140px;
@@ -36,7 +43,7 @@
             background:#EFEFEF;
             padding-bottom: 1em;
             border-top: 1px solid #333;
-            padding-left: 200px;
+            padding-left: 20px;
             height:150px;
         }
     </style>
@@ -52,18 +59,7 @@
         </div>
     </div>
     <div id="footer">
-        <c:forEach items="${videos}" var="video">
-            <div class="section">
-                <a onclick="setId('${video.youtubeId}','${video.startTime}')"> <img class="sectionimange"
-                        src="https://img.youtube.com/vi/${video.youtubeId}/1.jpg"><br>
-                </a>
-                <p>${video.name}</p>
-            </div>
-        </c:forEach>
-        <a class="btn btn-primary" onclick="add()">
-            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-            Add video
-        </a>
+
     </div>
     <div id="playerPic" class="modal fade" style="width: 60%; height: 60%">
         <div class="modal-dialog">
@@ -116,6 +112,7 @@
 </body>
 <script type="text/javascript">
     var ajaxUrl = "ajax/video/";
+    var gameId;
 
     function play(id, time) {
         var html = '';
@@ -134,6 +131,8 @@
             {
                 $("#ytplayer").stopVideo();
             });
+        gameId = document.getElementById('gameId').value;
+        updateVideo();
         }
     );
 
@@ -150,6 +149,30 @@
         $("#videoAddition").modal();
     }
 
+    function updateVideo() {
+        $.ajax({
+            type: "POST",
+            url: ajaxUrl + "byGame",
+            data: {gameId:gameId}
+        }).done(updateVideoByData);
+    }
+
+    function updateVideoByData(data) {
+        text = "<a class=\"btn btn-primary sectionbutton\" onclick=\"add()\">"+
+        "<span class=\"glyphicon glyphicon-plus\" aria-hidden=\"true\"></span>"+
+        "    Add video"+
+        "</a>";
+        for (var i = 0; i < data.length; i++) {
+            text = text + "<div class=\"section\">"+
+            "<a onclick=\"setId('"+data[i].youtubeId+"','"+data[i].startTime+"')\"> <img class=\"sectionimange\""+
+            "src=\"https://img.youtube.com/vi/"+data[i].youtubeId+"/1.jpg\"><br>"+
+            "    </a>"+
+            "    <p>"+data[i].name+"</p>"+
+            "    </div>";
+        }
+        $("#footer").html(text);
+    }
+
     function save() {
         $.ajax({
             type: "POST",
@@ -157,6 +180,7 @@
             data: $("#detailsForm").serialize()
         }).done(function () {
             $("#videoAddition").modal("hide");
+            updateVideo();
         });
     }
 </script>
