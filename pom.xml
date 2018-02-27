@@ -141,6 +141,11 @@
             <artifactId>jackson-datatype-jsr310</artifactId>
             <version>${jackson-json.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-search</artifactId>
+            <version>5.9.0.Final</version>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>

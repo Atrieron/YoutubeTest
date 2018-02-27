@@ -37,6 +37,8 @@ public class AbstractGameController {
             } else {
                 res.add(ToUtil.toGameSearchTo(game));
             }
+        } else {
+            gameService.getBySubstring(searchString).stream().forEach(el->res.add(ToUtil.toGameSearchTo(el)));
         }
         return res;
     }

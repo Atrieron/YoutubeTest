@@ -3,11 +3,18 @@ package authTest.repository.datajpa;
 import authTest.model.Game;
 import authTest.model.Image;
 import authTest.repository.GameRepository;
+import org.apache.lucene.search.Query;
+import org.hibernate.search.jpa.FullTextQuery;
+import org.hibernate.search.query.dsl.QueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.util.List;
+
+import org.hibernate.search.jpa.FullTextEntityManager;
+import org.hibernate.search.jpa.Search;
 
 @Repository
 public class DataJpaGameRepository implements GameRepository {
@@ -16,6 +23,9 @@ public class DataJpaGameRepository implements GameRepository {
 
     @Autowired
     CrudImageRepository imageRepository;
+
+    @Autowired
+    EntityManager entityManager;
 
     @Override
     public List<Game> getAll() {
@@ -53,5 +63,22 @@ public class DataJpaGameRepository implements GameRepository {
     @Override
     public Image getImageByGameId(int imageId) {
         return imageRepository.findByGameId(imageId);
+    }
+
+    @Override
+    @Transactional
+    public List<Game> getBySubstring(String subString) {
+
+        FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
+        QueryBuilder queryBuilder = fullTextEntityManager.getSearchFactory()
+                .buildQueryBuilder().forEntity(Game.class).get();
+        Query query = queryBuilder
+                .keyword()
+                .onFields("name")
+                .matching(subString)
+                .createQuery();
+
+        List<Game> resultList = fullTextEntityManager.createFullTextQuery(query, Game.class).getResultList();
+        return resultList;
     }
 }

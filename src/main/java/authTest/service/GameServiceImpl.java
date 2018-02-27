@@ -72,4 +72,9 @@ public class GameServiceImpl implements GameService {
     public Game getBySteamId(String idString) {
         return gameRepository.getBySteamId(idString);
     }
+
+    @Override
+    public List<Game> getBySubstring(String subString) {
+        return gameRepository.getBySubstring(subString);
+    }
 }

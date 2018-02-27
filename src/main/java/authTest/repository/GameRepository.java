@@ -13,4 +13,6 @@ public interface GameRepository {
 
     Image saveImage(Image image);
     Image getImageByGameId(int imageId);
+
+    List<Game> getBySubstring(String subString);
 }

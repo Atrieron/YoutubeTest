@@ -3,11 +3,14 @@ package authTest.model;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Type;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
+@Indexed
 @Table(name = "games")
 public class Game {
     @Id
@@ -15,6 +18,7 @@ public class Game {
     private Integer id;
 
     @Column(name = "name", nullable = false)
+    @Field
     private String name;
 
     @Column(name = "steam_id", nullable = false)
