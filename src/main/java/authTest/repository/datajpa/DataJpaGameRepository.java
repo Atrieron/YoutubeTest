@@ -4,7 +4,6 @@ import authTest.model.Game;
 import authTest.model.Image;
 import authTest.repository.GameRepository;
 import org.apache.lucene.search.Query;
-import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.query.dsl.QueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -74,11 +73,16 @@ public class DataJpaGameRepository implements GameRepository {
                 .buildQueryBuilder().forEntity(Game.class).get();
         Query query = queryBuilder
                 .keyword()
-                .onFields("name")
+                .onField("name")
                 .matching(subString)
                 .createQuery();
 
         List<Game> resultList = fullTextEntityManager.createFullTextQuery(query, Game.class).getResultList();
         return resultList;
+    }
+
+    private void createLuceneIndex() throws InterruptedException {
+        FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
+        fullTextEntityManager.createIndexer().startAndWait();
     }
 }

@@ -16,6 +16,9 @@
             padding-top: 1em;
             margin: 0 2em 0 200px;
         }
+        .listItem {
+            clear: both;
+        }
     </style>
 </head>
 <body>
@@ -31,11 +34,20 @@
 
     function inputchange() {
         if(document.getElementById('searchString').value){
+            //$.ajax({
+            //    type: "POST",
+            //    url: ajaxUrl + "search",
+            //    data: $("#searchForm").serialize()
+            //}).done(updateTableByData);
             $.ajax({
-                type: "POST",
                 url: ajaxUrl + "search",
-                data: $("#searchForm").serialize()
-            }).done(updateTableByData);
+                data: $("#searchForm").serialize(),
+                type: "POST",
+                dataType: "html",
+                success: function (data) {
+                    $("#searchResult").html(data);
+                }
+            });
         }
         else {
             $("#searchResult").html("");
@@ -48,12 +60,12 @@
             if(data[i].id==0) {
                 text = text + "<div><div class='columnLeft'>" +
                     "<img style=\"display: inline-block; width: 90%; height: 50px\" src=\"" + data[i].img_path + "\"></div>" +
-                    "<div class='columnRight'><p>" + data[i].name + "</p><input type='button' onclick='voteSteam(" + data[i].steamId + ")'>Vote</input>" +
+                    "<div class='columnRight'><p>" + data[i].name + "</p><input type='button' onclick='voteSteam(" + data[i].steamId + ")' value='Vote'/>" +
                     "</div></div>"
             } else {
                 text = text + "<div><div class='columnLeft'>" +
                     "<a href=\"game/"+data[i].id+"\"><img style=\"display: inline-block; width: 90%; height: 50px\" src=\"" + data[i].img_path + "\"></a></div>" +
-                    "<div class='columnRight'><a href=\"game/"+data[i].id+"\">" + data[i].name + "</a><input type='button' onclick='voteSteam(" + data[i].steamId + ")'>Vote</input>" +
+                    "<div class='columnRight'><a href=\"game/"+data[i].id+"\">" + data[i].name + "</a><input type='button' onclick='voteSteam(" + data[i].steamId + ")' value='Vote'/>" +
                     "</div></div>"
             }
         }

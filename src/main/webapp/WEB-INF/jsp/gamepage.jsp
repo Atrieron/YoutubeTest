@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>${game.name}</title>
     <base href="${pageContext.request.contextPath}/"/>
     <link rel="stylesheet" href="webjars/bootstrap/3.3.7-1/css/bootstrap.min.css">
     <script type="text/javascript"	src="webjars/jquery/3.2.1/dist/jquery.min.js"></script>
