@@ -8,7 +8,7 @@
 
     <version>1.0-SNAPSHOT</version>
 
-    <name>Authorization test</name>
+    <name>Youtubetest test</name>
 
     <properties>
         <java.version>1.8</java.version>
