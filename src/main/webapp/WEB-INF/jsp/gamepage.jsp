@@ -17,6 +17,7 @@
             display: inline-block;
         }
         .sectionbutton{
+            clear: both;
             float:left;
             margin-left:10px;
             display: inline-block;
@@ -68,7 +69,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body" id="playerdiv">
-                    <div id="playerholder"/>
+                    <div id="playerholder"></div>
                 </div>
             </div>
         </div>
@@ -115,18 +116,6 @@
     var gameId;
     var player;
 
-    function play(id, time) {
-        var html = '';
-
-        html += '<iframe id="ytplayer" style="height:70%;width:100%;" type="text/html"';
-        html += ' src="https://www.youtube.com/embed/'+id;
-        if(time!="0")
-            html += '?start='+time;
-        html += '" frameborder="0" allowfullscreen autoplay="1"/>';
-
-        return html;
-    };
-
     $(function()
         {
             var tag = document.createElement('script');
@@ -144,7 +133,7 @@
     );
 
     function setId(ytid, time) {
-        $("#playerdiv").html("<div id=\"playerholder\"/>");
+        $("#playerdiv").html("<div id=\"playerholder\"></div>");
 
         player = new YT.Player('playerholder', {
             height: '70%',
@@ -153,7 +142,6 @@
             playerVars: {'autoplay': 1, 'start':time}
         });
 
-        //$("#playerdiv").html(play(ytid, time));
         $("#playerPic").modal('show');
     }
 

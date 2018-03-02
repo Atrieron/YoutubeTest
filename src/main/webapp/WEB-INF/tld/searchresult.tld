@@ -5,11 +5,11 @@
 
     <tag>
         <name>searchResultTag</name>
-        <tag-class>authTest.searchResultTag</tag-class>
+        <tag-class>youtubeTest.searchResultTag</tag-class>
         <body-content>empty</body-content>
         <attribute>
             <name>gameSearchTo</name>
-            <type>authTest.to.GameSearchTo</type>
+            <type>youtubeTest.to.GameSearchTo</type>
             <rtexprvalue>true</rtexprvalue>
         </attribute>
     </tag>
