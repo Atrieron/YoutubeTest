@@ -47,12 +47,32 @@
             padding-left: 20px;
             height:150px;
         }
+        #file-input {
+            cursor: pointer;
+            outline: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            overflow: hidden;
+            filter: alpha(opacity=0); /* IE < 9 */
+            opacity: 0;
+        }
+        .input-label {
+            cursor: pointer;
+            position: relative;
+            display: inline-block;
+        }
     </style>
 </head>
 <body>
     <div>
         <div id ="columnLeft">
-            <img style="display: inline-block; width: 90%; height: 130px" src="${pageContext.request.contextPath}/imageController/${game.id}"/>
+            <label for="file-input" class="input-label">
+                <img style="display: inline-block; width: 90%; height: 130px" src="${pageContext.request.contextPath}/imageController/${game.id}"/>
+                <input type="file" id="file-input" onchange="fileChanged()" accept="image/*">
+            </label>
         </div>
         <div id ="columnRight">
             <h1>${game.name}</h1>
@@ -185,6 +205,16 @@
             $("#videoAddition").modal("hide");
             updateVideo();
         });
+    }
+
+    function fileChanged() {
+        var input = document.querySelector('file-input');
+        var curFiles = input.files;
+        if(curFiles.length == 0) {
+            alert("No files")
+        } else {
+            alert(curFiles[0].name);
+        }
     }
 </script>
 </html>
