@@ -4,75 +4,23 @@
 <head>
     <title>${game.name}</title>
     <base href="${pageContext.request.contextPath}/"/>
+
     <link rel="stylesheet" href="webjars/bootstrap/3.3.7-1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="resources/css/gamepage.css">
+
     <script type="text/javascript"	src="webjars/jquery/3.2.1/dist/jquery.min.js"></script>
     <script type="text/javascript" src="webjars/bootstrap/3.3.7-1/js/bootstrap.min.js" defer></script>
-    <style type="text/css">
-        .section{
-            border:solid 1px #999;
-            float:left;
-            height:140px;
-            margin-left:10px;
-            width:150px;
-            display: inline-block;
-        }
-        .sectionbutton{
-            clear: both;
-            float:left;
-            margin-left:10px;
-            display: inline-block;
-            top: 50%;
-            left: 50%;
-        }
-        .sectionimange{
-            height:70%;
-            width:140px;
-            display: inline-block;
-        }
-        #columnLeft {
-            float: left;
-            width: 160px;
-            margin-left: 10px;
-            padding-top: 1em;
-        }
-        #columnRight {
-            padding-top: 1em;
-            margin: 0 2em 0 200px;
-        }
-        #footer {
-            clear: both;
-            background:#EFEFEF;
-            padding-bottom: 1em;
-            border-top: 1px solid #333;
-            padding-left: 20px;
-            height:150px;
-        }
-        #file-input {
-            cursor: pointer;
-            outline: none;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 0;
-            height: 0;
-            overflow: hidden;
-            filter: alpha(opacity=0); /* IE < 9 */
-            opacity: 0;
-        }
-        .input-label {
-            cursor: pointer;
-            position: relative;
-            display: inline-block;
-        }
-    </style>
+    <script type="text/javascript" src="resources/js/gamepage.js" defer></script>
 </head>
 <body>
     <div>
         <div id ="columnLeft">
             <label for="file-input" class="input-label">
-                <img style="display: inline-block; width: 90%; height: 130px" src="${pageContext.request.contextPath}/imageController/${game.id}"/>
-                <input type="file" id="file-input" onchange="fileChanged()" accept="image/*">
+                Change
+                <input type="file" id="file-input" accept="image/*">
             </label>
+            <input type="button" onclick="saveImage()"/>
+            <img style="display: inline-block; width: 90%; height: 130px" id="gameImage" src="${pageContext.request.contextPath}/imageController/${game.id}"/>
         </div>
         <div id ="columnRight">
             <h1>${game.name}</h1>
@@ -120,7 +68,7 @@
                         </div>
                         <div class="form-group">
                             <div class="col-xs-offset-3 col-xs-9">
-                                <button class="btn btn-primary" type="button" onclick="save()">
+                                <button class="btn btn-primary" id="videoSaveButton" type="button">
                                     <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                                 </button>
                             </div>
@@ -131,90 +79,4 @@
         </div>
     </div>
 </body>
-<script type="text/javascript">
-    var ajaxUrl = "ajax/video/";
-    var gameId;
-    var player;
-
-    $(function()
-        {
-            var tag = document.createElement('script');
-            tag.src = "//www.youtube.com/player_api";
-            var firstScriptTag = document.getElementsByTagName('script')[0];
-            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-            $('#playerPic').on('hidden.bs.modal', function ()
-            {
-                player.stopVideo();
-            });
-            gameId = document.getElementById('gameId').value;
-            updateVideo();
-        }
-    );
-
-    function setId(ytid, time) {
-        $("#playerdiv").html("<div id=\"playerholder\"></div>");
-
-        player = new YT.Player('playerholder', {
-            height: '70%',
-            width: '100%',
-            videoId: ytid,
-            playerVars: {'autoplay': 1, 'start':time}
-        });
-
-        $("#playerPic").modal('show');
-    }
-
-    function add() {
-        description
-        $("#description").val("");
-        $("#link").val("");
-        $("#videoAddition").modal();
-    }
-
-    function updateVideo() {
-        $.ajax({
-            type: "POST",
-            url: ajaxUrl + "byGame",
-            data: {gameId:gameId}
-        }).done(updateVideoByData);
-    }
-
-    function updateVideoByData(data) {
-        text = "<a class=\"btn btn-primary sectionbutton\" onclick=\"add()\">"+
-        "<span class=\"glyphicon glyphicon-plus\" aria-hidden=\"true\"></span>"+
-        "    Add video"+
-        "</a>";
-        for (var i = 0; i < data.length; i++) {
-            text = text + "<div class=\"section\">"+
-            "<a onclick=\"setId('"+data[i].youtubeId+"','"+data[i].startTime+"')\"> <img class=\"sectionimange\""+
-            "src=\"https://img.youtube.com/vi/"+data[i].youtubeId+"/1.jpg\"><br>"+
-            "    </a>"+
-            "    <p>"+data[i].name+"</p>"+
-            "    </div>";
-        }
-        $("#footer").html(text);
-    }
-
-    function save() {
-        $.ajax({
-            type: "POST",
-            url: ajaxUrl,
-            data: $("#detailsForm").serialize()
-        }).done(function () {
-            $("#videoAddition").modal("hide");
-            updateVideo();
-        });
-    }
-
-    function fileChanged() {
-        var input = document.querySelector('file-input');
-        var curFiles = input.files;
-        if(curFiles.length == 0) {
-            alert("No files")
-        } else {
-            alert(curFiles[0].name);
-        }
-    }
-</script>
 </html>
