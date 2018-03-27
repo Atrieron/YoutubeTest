@@ -76,4 +76,9 @@ public class GameServiceImpl implements GameService {
     public List<Game> getBySubstring(String subString) {
         return gameRepository.getBySubstring(subString);
     }
+
+    @Override
+    public void saveImage(Image gamePic) {
+        gameRepository.saveImage(gamePic);
+    }
 }

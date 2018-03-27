@@ -12,4 +12,6 @@ public interface GameService {
     List<Game> getAll();
     Game getBySteamId(String idString);
     List<Game> getBySubstring(String subString);
+
+    void saveImage(Image gamePic);
 }

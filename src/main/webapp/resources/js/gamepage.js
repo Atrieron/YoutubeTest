@@ -5,32 +5,6 @@ var player;
 $(function()
     {
         var tag = document.createElement('script');
-
-        $('#file-input').click(function(event) {
-            var selectedFile = event.target.files[0];
-            var reader = new FileReader();
-
-            var imgtag = document.getElementById("gameImage");
-            imgtag.title = selectedFile.name;
-
-            reader.onload = function(event) {
-                imgtag.src = event.target.result;
-            };
-
-            reader.readAsDataURL(selectedFile);
-        });
-
-        $('#videoSaveButton').click(function() {
-            $.ajax({
-                type: "POST",
-                url: ajaxUrl,
-                data: $("#detailsForm").serialize()
-            }).done(function () {
-                $("#videoAddition").modal("hide");
-                updateVideo();
-            });
-        });
-
         tag.src = "//www.youtube.com/player_api";
         var firstScriptTag = document.getElementsByTagName('script')[0];
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
@@ -87,12 +61,42 @@ function updateVideoByData(data) {
     $("#footer").html(text);
 }
 
-//function saveImage() {
-//    var reader = new FileReader();
+function save() {
+    $.ajax({
+        type: "POST",
+        url: ajaxUrl,
+        data: $("#detailsForm").serialize()
+    }).done(function () {
+        $("#videoAddition").modal("hide");
+        updateVideo();
+    });
+}
 
-//    reader.onload = function(event) {
-//        imgtag.src = event.target.result;
-//    };
+function fileChanged() {
+    var filesSelected = document.getElementById("file-input").files;
+    if (filesSelected.length > 0)
+    {
+        var fileToLoad = filesSelected[0];
+        var fileReader = new FileReader();
+        fileReader.onload = function(fileLoadedEvent)
+        {
+            var imageLoaded = document.getElementById("gamePic");
+            imageLoaded.src = fileLoadedEvent.target.result;
+        };
+        fileReader.readAsDataURL(fileToLoad);
+    }
+}
 
-//    reader.readAsDataURL(selectedFile);
-//}
+function uploadImage() {
+    var form = new FormData();
+    form.append("id",gameId);
+    form.append("image", $("#file-input")[0].files[0]);
+
+    $.ajax({
+        type: "POST",
+        url: "ajax/game/image/",
+        processData: false,
+        contentType: false,
+        data: form
+    });
+}

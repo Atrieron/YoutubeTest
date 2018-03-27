@@ -1,5 +1,6 @@
 package youtubeTest.web.game;
 
+import org.springframework.web.multipart.MultipartFile;
 import youtubeTest.model.Game;
 import youtubeTest.to.GameSearchTo;
 import org.springframework.web.bind.annotation.*;
@@ -31,5 +32,10 @@ public class GameAjaxController extends AbstractGameController {
         if("steamId".equals(idType)){
             Game game = super.registerSteamGame(id);
         }
+    }
+
+    @PostMapping(value = "/image")
+    public void uploadImage(@RequestParam("id") String id, @RequestParam("image") MultipartFile file) {
+        super.uploadImage(id, file);
     }
 }

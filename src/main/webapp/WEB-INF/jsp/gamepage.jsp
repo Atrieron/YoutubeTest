@@ -16,11 +16,11 @@
     <div>
         <div id ="columnLeft">
             <label for="file-input" class="input-label">
+                <input type="file" id="file-input" onchange="fileChanged()" accept="image/*">
                 Change
-                <input type="file" id="file-input" accept="image/*">
             </label>
-            <input type="button" onclick="saveImage()"/>
-            <img style="display: inline-block; width: 90%; height: 130px" id="gameImage" src="${pageContext.request.contextPath}/imageController/${game.id}"/>
+            <input type="button" value="Upload" onclick="uploadImage()"/>
+            <img style="display: inline-block; width: 90%; height: 130px" id="gamePic" src="${pageContext.request.contextPath}/imageController/${game.id}"/>
         </div>
         <div id ="columnRight">
             <h1>${game.name}</h1>

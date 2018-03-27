@@ -1,12 +1,15 @@
 package youtubeTest.web.game;
 
+import org.springframework.web.multipart.MultipartFile;
 import youtubeTest.model.Game;
+import youtubeTest.model.Image;
 import youtubeTest.service.GameService;
 import youtubeTest.to.GameSearchTo;
 import youtubeTest.util.NetHelper;
 import youtubeTest.util.ToUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,5 +55,22 @@ public class AbstractGameController {
             }
         }
         return game;
+    }
+
+    public void uploadImage(String id, MultipartFile file) {
+        Game game = gameService.getById(Integer.parseInt(id));
+        if(game!=null){
+            Image gamePic = gameService.getImageByGameId(game.getId());
+            if(gamePic==null){
+                gamePic = new Image();
+                gamePic.setGame(game);
+            }
+            try {
+                gamePic.setData(file.getBytes());
+                gameService.saveImage(gamePic);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
