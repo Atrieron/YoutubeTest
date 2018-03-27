@@ -15,11 +15,13 @@
 <body>
     <div>
         <div id ="columnLeft">
-            <label for="file-input" class="input-label">
-                <input type="file" id="file-input" onchange="fileChanged()" accept="image/*">
-                Change
-            </label>
-            <input type="button" value="Upload" onclick="uploadImage()"/>
+            <div id="imagecontrol">
+                <label for="file-input" class="input-label">
+                    <input type="file" id="file-input" accept="image/*">
+                    Change
+                </label>
+                <input type="button" value="Upload" id="uploadButton"/>
+            </div>
             <img style="display: inline-block; width: 90%; height: 130px" id="gamePic" src="${pageContext.request.contextPath}/imageController/${game.id}"/>
         </div>
         <div id ="columnRight">
