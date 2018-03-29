@@ -29,6 +29,7 @@ public class RootController {
         if(game==null){
             return "/";
         }
+        model.addAttribute("isEditable", true);
         model.addAttribute("game",game);
         return "gamepage";
     }
