@@ -20,11 +20,6 @@
         <div id ="columnLeft">
             <c:if test="${isEditable}">
                 <div id="imagecontrol">
-                    <label for="file-input" class="input-label">
-                        <input type="file" id="file-input" accept="image/*">
-                        Change
-                    </label>
-                    <input type="button" value="Upload" id="uploadButton"/>
                 </div>
             </c:if>
             <img style="display: inline-block; width: 90%; height: 130px" id="gamePic" src="${pageContext.request.contextPath}/imageController/${game.id}"/>
